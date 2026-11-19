@@ -12,7 +12,8 @@ plugins {
 }
 
 group = "cz.nejakejtomas.kmp-utilities"
-version = "9.9.9"
+// JitPack version workaround
+version = providers.environmentVariable("VERSION").getOrElse("9.9.9")
 
 kotlin {
     jvm {
