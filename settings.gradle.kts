@@ -17,7 +17,4 @@ dependencyResolutionManagement {
     }
 }
 
-include(":utilities")
-include(":utilities-core")
-include(":utilities-compose")
-include(":utilities-viewmodel")
+include(":kmp-utilities")

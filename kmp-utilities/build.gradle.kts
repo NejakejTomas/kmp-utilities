@@ -5,12 +5,14 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.androidKmpLibrary)
     alias(libs.plugins.vanniktech.mavenPublish)
+    alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.kotlin.parcelize)
     id("maven-publish")
 }
 
-group = libs.versions.library.group.get()
-version = libs.versions.library.version.get()
+group = "cz.nejakejtomas.kmp-utilities"
+version = "9.9.9"
 
 kotlin {
     jvm {
@@ -19,7 +21,7 @@ kotlin {
         }
     }
     android {
-        namespace = "${libs.versions.library.namespace.get()}.${project.name.replace('-', '.')}"
+        namespace = "cz.nejakejtomas.kmp.utils"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
         minSdk = libs.versions.android.minSdk.get().toInt()
 
@@ -32,13 +34,31 @@ kotlin {
 
     explicitApi()
 
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
+        freeCompilerArgs.add("-Xreturn-value-checker=full")
+        optIn.add("kotlin.uuid.ExperimentalUuidApi")
+    }
+
     sourceSets {
+        androidMain.dependencies {
+            api(libs.accompanist.permissions)
+        }
+
         commonMain.dependencies {
-            api(project(":utilities-core"))
-            api(libs.androidx.lifecycle.savedstate)
-            implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.compose.runtime)
+            implementation(libs.compose.ui)
+            implementation(libs.androidx.lifecycle.runtimeCompose)
+            implementation(libs.androidx.lifecycle.navigation3)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
+            implementation(libs.navigation3.ui)
+            implementation(libs.kotlinx.serialization.core)
             implementation(libs.kotlinx.serialization.json)
+
+            api(libs.compose.material3)
+            api(libs.kotlinx.coroutines.core)
+            api(libs.koin.compose)
+            api(libs.androidx.lifecycle.savedstate)
         }
     }
 }
