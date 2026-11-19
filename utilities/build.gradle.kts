@@ -18,7 +18,7 @@ kotlin {
         }
     }
     android {
-        namespace = "${libs.versions.library.group.get()}.${project.name.replace('-', '.')}"
+        namespace = "${libs.versions.library.namespace.get()}.${project.name.replace('-', '.')}"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
         minSdk = libs.versions.android.minSdk.get().toInt()
 
